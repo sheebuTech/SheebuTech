@@ -5,6 +5,8 @@ let originalFile = null;
 document.getElementById('fileInput').addEventListener('change', handleFileSelect);
 document.getElementById('qualitySlider').addEventListener('input', updateQualityValue);
 document.getElementById('sizeSelect').addEventListener('change', toggleCustomSize);
+document.getElementById('uploadArea').addEventListener('dragover', handleDragOver);
+document.getElementById('uploadArea').addEventListener('drop', handleDrop);
 
 // Quality slider update
 function updateQualityValue() {
@@ -17,6 +19,22 @@ function toggleCustomSize() {
     const customSizeInput = document.getElementById('customSize');
     customSizeInput.style.display = 
         document.getElementById('sizeSelect').value === 'custom' ? 'block' : 'none';
+}
+
+// Drag and drop handlers
+function handleDragOver(e) {
+    e.preventDefault();
+    document.getElementById('uploadArea').classList.add('dragover');
+}
+
+function handleDrop(e) {
+    e.preventDefault();
+    document.getElementById('uploadArea').classList.remove('dragover');
+    
+    const files = e.dataTransfer.files;
+    if (files.length > 0) {
+        handleImageFile(files[0]);
+    }
 }
 
 // File selection handler
@@ -77,6 +95,9 @@ function convertImage() {
 
     const format = document.getElementById('formatSelect').value;
     const quality = parseInt(document.getElementById('qualitySlider').value) / 100;
+    const targetSizeKB = document.getElementById('sizeSelect').value === 'custom' ? 
+        parseInt(document.getElementById('customSize').value) : 
+        parseInt(document.getElementById('sizeSelect').value);
     
     const width = document.getElementById('widthInput').value || originalImage.width;
     const height = document.getElementById('heightInput').value || originalImage.height;
@@ -169,6 +190,9 @@ function resetConverter() {
     
     updateQualityValue();
 }
+
+// Auto update year
+document.getElementById('currentYear').textContent = new Date().getFullYear();
 
 // Initialize
 updateQualityValue();
