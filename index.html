@@ -22,6 +22,16 @@
     </div>
 
     <div class="container">
+        <!-- Navigation Tabs -->
+        <div class="tabs-container">
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="single">Single Image</button>
+                <button class="tab-btn" data-tab="bulk">Bulk Processing</button>
+                <button class="tab-btn" data-tab="passport">Passport Photo</button>
+                <button class="tab-btn" data-tab="tools">Extra Tools</button>
+            </div>
+        </div>
+
         <section class="intro-section">
             <div class="intro-content">
                 <h2>🖼️ Professional Image Converter</h2>
@@ -39,6 +49,10 @@
                         <i class="fas fa-file-alt"></i>
                         <span>Form Applicants</span>
                     </div>
+                    <div class="feature">
+                        <i class="fas fa-images"></i>
+                        <span>Bulk Processing</span>
+                    </div>
                 </div>
             </div>
         </section>
@@ -48,128 +62,333 @@
             <p>Government form standards ke according image convert karein - 100% Secure & Private</p>
         </header>
 
-        <section class="instructions">
-            <h2><i class="fas fa-info-circle"></i> Important Instructions</h2>
-            <div class="instruction-grid">
-                <div class="instruction-item">
-                    <div class="instruction-icon">
-                        <i class="fas fa-file-image"></i>
+        <!-- Single Image Tab Content -->
+        <div class="tab-content active" id="single-tab">
+            <section class="instructions">
+                <h2><i class="fas fa-info-circle"></i> Important Instructions</h2>
+                <div class="instruction-grid">
+                    <div class="instruction-item">
+                        <div class="instruction-icon">
+                            <i class="fas fa-file-image"></i>
+                        </div>
+                        <h3>Supported Formats</h3>
+                        <p>JPG, PNG, WebP, GIF</p>
                     </div>
-                    <h3>Supported Formats</h3>
-                    <p>JPG, PNG, WebP, GIF</p>
-                </div>
-                <div class="instruction-item">
-                    <div class="instruction-icon">
-                        <i class="fas fa-weight-hanging"></i>
+                    <div class="instruction-item">
+                        <div class="instruction-icon">
+                            <i class="fas fa-weight-hanging"></i>
+                        </div>
+                        <h3>Maximum File Size</h3>
+                        <p>10 MB</p>
                     </div>
-                    <h3>Maximum File Size</h3>
-                    <p>10 MB</p>
-                </div>
-                <div class="instruction-item">
-                    <div class="instruction-icon">
-                        <i class="fas fa-expand-arrows-alt"></i>
+                    <div class="instruction-item">
+                        <div class="instruction-icon">
+                            <i class="fas fa-expand-arrows-alt"></i>
+                        </div>
+                        <h3>Recommended Dimensions</h3>
+                        <p>Min: 100x100px, Max: 4000x4000px</p>
                     </div>
-                    <h3>Recommended Dimensions</h3>
-                    <p>Min: 100x100px, Max: 4000x4000px</p>
-                </div>
-                <div class="instruction-item">
-                    <div class="instruction-icon">
-                        <i class="fas fa-shield-alt"></i>
+                    <div class="instruction-item">
+                        <div class="instruction-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>Privacy Guarantee</h3>
+                        <p>💯% Client-side processing</p>
                     </div>
-                    <h3>Privacy Guarantee</h3>
-                    <p>💯% Client-side processing</p>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <section class="converter">
-            <div class="upload-area" id="uploadArea">
-                <div class="upload-content">
-                    <div class="upload-icon">
-                        <i class="fas fa-cloud-upload-alt"></i>
+            <section class="converter">
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-content">
+                        <div class="upload-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </div>
+                        <h3>Yahan Image Upload Karein</h3>
+                        <p>Click karein ya image yahan drag karein</p>
+                        <input type="file" id="fileInput" accept="image/*" hidden>
+                        <button class="upload-btn" onclick="document.getElementById('fileInput').click()">
+                            <i class="fas fa-folder-open"></i> Image Select Karein
+                        </button>
                     </div>
-                    <h3>Yahan Image Upload Karein</h3>
-                    <p>Click karein ya image yahan drag karein</p>
-                    <input type="file" id="fileInput" accept="image/*" hidden>
-                    <button class="upload-btn" onclick="document.getElementById('fileInput').click()">
-                        <i class="fas fa-folder-open"></i> Image Select Karein
-                    </button>
                 </div>
-            </div>
 
-            <div class="options-panel" id="optionsPanel" style="display: none;">
-                <h3><i class="fas fa-cog"></i> Conversion Settings</h3>
+                <div class="options-panel" id="optionsPanel" style="display: none;">
+                    <h3><i class="fas fa-cog"></i> Conversion Settings</h3>
+                    
+                    <div class="option-group">
+                        <label><i class="fas fa-format"></i> Output Format:</label>
+                        <select id="formatSelect">
+                            <option value="jpg">JPG (Recommended)</option>
+                            <option value="png">PNG (Lossless)</option>
+                            <option value="webp">WebP (Modern)</option>
+                        </select>
+                    </div>
+
+                    <div class="option-group">
+                        <label><i class="fas fa-weight"></i> File Size Control:</label>
+                        <select id="sizeControlType">
+                            <option value="target">Target Size</option>
+                            <option value="compress">Compress Size</option>
+                            <option value="increase">Increase Size</option>
+                        </select>
+                        <select id="sizeSelect">
+                            <option value="20">20 KB (Document Use)</option>
+                            <option value="50">50 KB (Small Size)</option>
+                            <option value="100">100 KB (Medium Size)</option>
+                            <option value="500">500 KB (Good Quality)</option>
+                            <option value="1000">1 MB (High Quality)</option>
+                            <option value="2000">2 MB (Maximum Quality)</option>
+                            <option value="custom">Custom Size</option>
+                        </select>
+                        <input type="number" id="customSize" placeholder="KB mein size" style="display: none; margin-top: 5px;">
+                    </div>
+
+                    <div class="option-group">
+                        <label><i class="fas fa-tachometer-alt"></i> Image Quality:</label>
+                        <div class="slider-container">
+                            <input type="range" id="qualitySlider" min="10" max="100" value="85">
+                            <span id="qualityValue">85%</span>
+                        </div>
+                    </div>
+
+                    <div class="option-group">
+                        <label><i class="fas fa-arrows-alt"></i> Resize Dimensions:</label>
+                        <div class="dimension-controls">
+                            <select id="unitSelect">
+                                <option value="px">Pixels (px)</option>
+                                <option value="in">Inches (in)</option>
+                                <option value="cm">Centimeters (cm)</option>
+                                <option value="mm">Millimeters (mm)</option>
+                            </select>
+                            <div class="dimension-inputs">
+                                <input type="number" id="widthInput" placeholder="Width">
+                                <span>x</span>
+                                <input type="number" id="heightInput" placeholder="Height">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="maintainAspect" checked> 
+                                    <i class="fas fa-link"></i> Aspect Ratio Maintain karein
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="convert-btn" onclick="convertImage()">
+                            <i class="fas fa-sync-alt"></i> Image Convert Karein
+                        </button>
+                        <button class="reset-btn" onclick="resetConverter()">
+                            <i class="fas fa-redo"></i> Reset
+                        </button>
+                    </div>
+                </div>
+
+                <div class="preview-section" id="previewSection" style="display: none;">
+                    <h3><i class="fas fa-eye"></i> Preview & Download</h3>
+                    <div class="preview-container">
+                        <div class="original-preview">
+                            <h4><i class="fas fa-image"></i> Original Image</h4>
+                            <img id="originalPreview" class="preview-img">
+                            <p id="originalInfo"></p>
+                        </div>
+                        <div class="converted-preview">
+                            <h4><i class="fas fa-file-download"></i> Converted Image</h4>
+                            <img id="convertedPreview" class="preview-img">
+                            <p id="convertedInfo"></p>
+                            <a id="downloadBtn" class="download-btn" download="converted-image.jpg">
+                                <i class="fas fa-download"></i> Converted Image Download Karein
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Bulk Processing Tab Content -->
+        <div class="tab-content" id="bulk-tab">
+            <section class="bulk-section">
+                <h2><i class="fas fa-images"></i> Bulk Image Processing</h2>
+                <p>Ek saath 10 images tak process karein - resize, compress, ya format change karein</p>
                 
-                <div class="option-group">
-                    <label><i class="fas fa-format"></i> Output Format:</label>
-                    <select id="formatSelect">
-                        <option value="jpg">JPG (Recommended)</option>
-                        <option value="png">PNG (Lossless)</option>
-                        <option value="webp">WebP (Modern)</option>
-                    </select>
-                </div>
-
-                <div class="option-group">
-                    <label><i class="fas fa-weight"></i> File Size Target:</label>
-                    <select id="sizeSelect">
-                        <option value="500">500 KB (Document Use)</option>
-                        <option value="1000">1 MB (General Use)</option>
-                        <option value="2000">2 MB (High Quality)</option>
-                        <option value="custom">Custom Size</option>
-                    </select>
-                    <input type="number" id="customSize" placeholder="KB mein size" style="display: none; margin-top: 5px;">
-                </div>
-
-                <div class="option-group">
-                    <label><i class="fas fa-tachometer-alt"></i> Image Quality:</label>
-                    <div class="slider-container">
-                        <input type="range" id="qualitySlider" min="10" max="100" value="85">
-                        <span id="qualityValue">85%</span>
+                <div class="bulk-upload-area" id="bulkUploadArea">
+                    <div class="upload-content">
+                        <div class="upload-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </div>
+                        <h3>Multiple Images Upload Karein</h3>
+                        <p>Maximum 10 images, click karein ya images yahan drag karein</p>
+                        <input type="file" id="bulkFileInput" accept="image/*" multiple hidden>
+                        <button class="upload-btn" onclick="document.getElementById('bulkFileInput').click()">
+                            <i class="fas fa-folder-open"></i> Multiple Images Select Karein
+                        </button>
                     </div>
                 </div>
 
-                <div class="option-group">
-                    <label><i class="fas fa-arrows-alt"></i> Resize Dimensions (Optional):</label>
-                    <div class="dimension-inputs">
-                        <input type="number" id="widthInput" placeholder="Width (px)">
-                        <span>x</span>
-                        <input type="number" id="heightInput" placeholder="Height (px)">
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="maintainAspect"> 
-                            <i class="fas fa-link"></i> Aspect Ratio Maintain karein
-                        </label>
+                <div class="bulk-options" id="bulkOptions" style="display: none;">
+                    <h3><i class="fas fa-cogs"></i> Bulk Processing Settings</h3>
+                    
+                    <div class="bulk-settings">
+                        <div class="option-group">
+                            <label><i class="fas fa-format"></i> Output Format:</label>
+                            <select id="bulkFormatSelect">
+                                <option value="jpg">JPG</option>
+                                <option value="png">PNG</option>
+                                <option value="webp">WebP</option>
+                            </select>
+                        </div>
+
+                        <div class="option-group">
+                            <label><i class="fas fa-weight"></i> Target Size (KB):</label>
+                            <input type="number" id="bulkTargetSize" placeholder="e.g., 100" value="100">
+                        </div>
+
+                        <div class="option-group">
+                            <label><i class="fas fa-arrows-alt"></i> Resize to Width:</label>
+                            <input type="number" id="bulkWidth" placeholder="Width in pixels">
+                        </div>
+                    </div>
+
+                    <div class="bulk-files-list" id="bulkFilesList"></div>
+
+                    <div class="action-buttons">
+                        <button class="convert-btn" onclick="processBulkImages()">
+                            <i class="fas fa-play-circle"></i> Process All Images
+                        </button>
+                        <button class="reset-btn" onclick="resetBulkConverter()">
+                            <i class="fas fa-redo"></i> Reset All
+                        </button>
                     </div>
                 </div>
 
-                <div class="action-buttons">
-                    <button class="convert-btn" onclick="convertImage()">
-                        <i class="fas fa-sync-alt"></i> Image Convert Karein
-                    </button>
-                    <button class="reset-btn" onclick="resetConverter()">
-                        <i class="fas fa-redo"></i> Reset
-                    </button>
+                <div class="bulk-results" id="bulkResults" style="display: none;">
+                    <h3><i class="fas fa-download"></i> Download Processed Images</h3>
+                    <div id="bulkDownloadArea"></div>
                 </div>
-            </div>
+            </section>
+        </div>
 
-            <div class="preview-section" id="previewSection" style="display: none;">
-                <h3><i class="fas fa-eye"></i> Preview & Download</h3>
-                <div class="preview-container">
-                    <div class="original-preview">
-                        <h4><i class="fas fa-image"></i> Original Image</h4>
-                        <img id="originalPreview" class="preview-img">
-                        <p id="originalInfo"></p>
-                    </div>
-                    <div class="converted-preview">
-                        <h4><i class="fas fa-file-download"></i> Converted Image</h4>
-                        <img id="convertedPreview" class="preview-img">
-                        <p id="convertedInfo"></p>
-                        <a id="downloadBtn" class="download-btn" download="converted-image.jpg">
-                            <i class="fas fa-download"></i> Converted Image Download Karein
-                        </a>
+        <!-- Passport Photo Tab Content -->
+        <div class="tab-content" id="passport-tab">
+            <section class="passport-section">
+                <h2><i class="fas fa-id-card"></i> Passport Photo Maker</h2>
+                <p>Professional passport aur document photos banayein</p>
+                
+                <div class="passport-upload-area" id="passportUploadArea">
+                    <div class="upload-content">
+                        <div class="upload-icon">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                        <h3>Passport Photo Ke Liye Image Upload Karein</h3>
+                        <p>Clear face photo upload karein</p>
+                        <input type="file" id="passportFileInput" accept="image/*" hidden>
+                        <button class="upload-btn" onclick="document.getElementById('passportFileInput').click()">
+                            <i class="fas fa-folder-open"></i> Photo Select Karein
+                        </button>
                     </div>
                 </div>
-            </div>
-        </section>
+
+                <div class="passport-options" id="passportOptions" style="display: none;">
+                    <h3><i class="fas fa-id-card"></i> Passport Size Settings</h3>
+                    
+                    <div class="passport-sizes">
+                        <div class="size-option" data-size="2x2">
+                            <div class="size-preview">2x2</div>
+                            <span>2x2 inches</span>
+                            <small>Passport</small>
+                        </div>
+                        <div class="size-option" data-size="2x3">
+                            <div class="size-preview">2x3</div>
+                            <span>2x3 inches</span>
+                            <small>Visa</small>
+                        </div>
+                        <div class="size-option" data-size="3x4">
+                            <div class="size-preview">3x4</div>
+                            <span>3x4 inches</span>
+                            <small>ID Card</small>
+                        </div>
+                        <div class="size-option" data-size="4x6">
+                            <div class="size-preview">4x6</div>
+                            <span>4x6 inches</span>
+                            <small>Document</small>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="convert-btn" onclick="createPassportPhoto()">
+                            <i class="fas fa-id-card"></i> Create Passport Photo
+                        </button>
+                    </div>
+                </div>
+
+                <div class="passport-preview" id="passportPreview" style="display: none;">
+                    <h3><i class="fas fa-eye"></i> Passport Photo Preview</h3>
+                    <div class="preview-container">
+                        <div class="photo-preview">
+                            <img id="passportOutput" class="preview-img">
+                            <p id="passportInfo"></p>
+                            <a id="passportDownloadBtn" class="download-btn">
+                                <i class="fas fa-download"></i> Passport Photo Download Karein
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Extra Tools Tab Content -->
+        <div class="tab-content" id="tools-tab">
+            <section class="tools-section">
+                <h2><i class="fas fa-tools"></i> Extra Tools</h2>
+                <p>Additional image editing tools</p>
+                
+                <div class="tools-grid">
+                    <div class="tool-card" data-tool="background">
+                        <div class="tool-icon">
+                            <i class="fas fa-portrait"></i>
+                        </div>
+                        <h3>Background Remove</h3>
+                        <p>Image ka background remove karein</p>
+                        <button class="tool-btn" onclick="showBackgroundTool()">Use Tool</button>
+                    </div>
+                    
+                    <div class="tool-card" data-tool="blur">
+                        <div class="tool-icon">
+                            <i class="fas fa-blur"></i>
+                        </div>
+                        <h3>Background Blur</h3>
+                        <p>Background ko blur karein</p>
+                        <button class="tool-btn" onclick="showBlurTool()">Use Tool</button>
+                    </div>
+                    
+                    <div class="tool-card" data-tool="pdf">
+                        <div class="tool-icon">
+                            <i class="fas fa-file-pdf"></i>
+                        </div>
+                        <h3>Image to PDF</h3>
+                        <p>Images ko PDF mein convert karein</p>
+                        <button class="tool-btn" onclick="showPdfTool()">Use Tool</button>
+                    </div>
+                </div>
+
+                <!-- Background Remove Tool -->
+                <div class="tool-interface" id="backgroundTool" style="display: none;">
+                    <h3><i class="fas fa-portrait"></i> Background Remove Tool</h3>
+                    <div class="tool-upload-area">
+                        <input type="file" id="bgRemoveInput" accept="image/*">
+                        <button onclick="removeBackground()">Remove Background</button>
+                    </div>
+                </div>
+
+                <!-- PDF Tool -->
+                <div class="tool-interface" id="pdfTool" style="display: none;">
+                    <h3><i class="fas fa-file-pdf"></i> Image to PDF Converter</h3>
+                    <div class="pdf-upload-area">
+                        <input type="file" id="pdfInput" accept="image/*" multiple>
+                        <button onclick="convertToPdf()">Create PDF</button>
+                    </div>
+                </div>
+            </section>
+        </div>
 
         <section class="youtube-promo">
             <div class="promo-content">
@@ -206,6 +425,7 @@
         </div>
     </footer>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
