@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SheebuTech - Image Converter Tool</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header-banner">
+        <div class="container">
+            <h1 class="sheebutech-text">Made By SheebuTech</h1>
+        </div>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>Professional Image Converter Tool</h1>
+            <p>Government form standards ke according image convert karein - 100% Secure & Private</p>
+        </header>
+
+        <section class="instructions">
+            <h2>⚠️ Important Instructions</h2>
+            <div class="instruction-grid">
+                <div class="instruction-item">
+                    <h3>Supported Formats</h3>
+                    <p>JPG, PNG, WebP, GIF</p>
+                </div>
+                <div class="instruction-item">
+                    <h3>Maximum File Size</h3>
+                    <p>10 MB</p>
+                </div>
+                <div class="instruction-item">
+                    <h3>Recommended Dimensions</h3>
+                    <p>Min: 100x100px, Max: 4000x4000px</p>
+                </div>
+                <div class="instruction-item">
+                    <h3>Privacy Guarantee</h3>
+                    <p>💯% Client-side processing - No data storage</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="converter">
+            <div class="upload-area" id="uploadArea">
+                <div class="upload-content">
+                    <span class="upload-icon">📁</span>
+                    <h3>Yahan Image Upload Karein</h3>
+                    <p>Click karein ya image yahan drag karein</p>
+                    <input type="file" id="fileInput" accept="image/*" hidden>
+                    <button class="upload-btn" onclick="document.getElementById('fileInput').click()">
+                        Image Select Karein
+                    </button>
+                </div>
+            </div>
+
+            <div class="options-panel" id="optionsPanel" style="display: none;">
+                <h3>Conversion Settings</h3>
+                
+                <div class="option-group">
+                    <label>Output Format:</label>
+                    <select id="formatSelect">
+                        <option value="jpg">JPG (Recommended)</option>
+                        <option value="png">PNG (Lossless)</option>
+                        <option value="webp">WebP (Modern)</option>
+                    </select>
+                </div>
+
+                <div class="option-group">
+                    <label>File Size Target:</label>
+                    <select id="sizeSelect">
+                        <option value="500">500 KB (Document Use)</option>
+                        <option value="1000">1 MB (General Use)</option>
+                        <option value="2000">2 MB (High Quality)</option>
+                        <option value="custom">Custom Size</option>
+                    </select>
+                    <input type="number" id="customSize" placeholder="KB mein size" style="display: none; margin-top: 5px;">
+                </div>
+
+                <div class="option-group">
+                    <label>Image Quality:</label>
+                    <input type="range" id="qualitySlider" min="10" max="100" value="85">
+                    <span id="qualityValue">85%</span>
+                </div>
+
+                <div class="option-group">
+                    <label>Resize Dimensions (Optional):</label>
+                    <div class="dimension-inputs">
+                        <input type="number" id="widthInput" placeholder="Width (px)">
+                        <span>x</span>
+                        <input type="number" id="heightInput" placeholder="Height (px)">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="maintainAspect"> Aspect Ratio Maintain karein
+                        </label>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="convert-btn" onclick="convertImage()">Image Convert Karein</button>
+                    <button class="reset-btn" onclick="resetConverter()">Reset</button>
+                </div>
+            </div>
+
+            <div class="preview-section" id="previewSection" style="display: none;">
+                <h3>Preview & Download</h3>
+                <div class="preview-container">
+                    <div class="original-preview">
+                        <h4>Original Image</h4>
+                        <img id="originalPreview" class="preview-img">
+                        <p id="originalInfo"></p>
+                    </div>
+                    <div class="converted-preview">
+                        <h4>Converted Image</h4>
+                        <img id="convertedPreview" class="preview-img">
+                        <p id="convertedInfo"></p>
+                        <a id="downloadBtn" class="download-btn" download="converted-image.jpg">
+                            📥 Converted Image Download Karein
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="privacy-notice">
+            <h2>🔒 Privacy & Security</h2>
+            <div class="privacy-content">
+                <p><strong>Yeh tool 100% secure hai kyunki:</strong></p>
+                <ul>
+                    <li>✅ Aapki images aapke computer par hi process hoti hain</li>
+                    <li>✅ Koi bhi data internet par nahi bheja jata</li>
+                    <li>✅ Koi server storage nahi hai</li>
+                    <li>✅ Aapka data aapke control mein hai</li>
+                </ul>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 SheebuTech. All rights reserved. | 100% Secure & Private</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
