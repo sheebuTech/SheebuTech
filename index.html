@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>SheebuTech - Professional Image & PDF Tools</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="" crossorigin="anonymous" />
 </head>
 <body>
     <!-- Header -->
@@ -16,6 +16,7 @@
                     <h1>Sheebu<span>Tech</span></h1>
                     <div class="tagline">Professional Image & PDF Tools</div>
                 </div>
+
                 <nav>
                     <ul>
                         <li><a href="#" class="nav-link active" data-section="home">Home</a></li>
@@ -24,6 +25,12 @@
                         <li><a href="#" class="nav-link" data-section="ai-tools">AI Tools</a></li>
                     </ul>
                 </nav>
+
+                <div class="header-actions">
+                    <button id="toggle-dark" class="icon-btn" aria-pressed="false" title="Toggle Dark Mode">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </header>
@@ -34,7 +41,7 @@
             <h2>All-in-One Image & PDF Processing Tools</h2>
             <p>Professional quality image editing and PDF manipulation tools - 100% free, secure, and browser-based. No installation required.</p>
             <button class="cta-button" id="explore-tools">Explore All Tools</button>
-            
+
             <!-- Quick Tools -->
             <div class="quick-tools">
                 <h3>Popular Tools</h3>
@@ -68,7 +75,7 @@
                 <p>Powerful tools for all your image editing needs</p>
             </div>
             <div class="tools-grid">
-                <!-- Tools will be loaded by JavaScript -->
+                <!-- Tools loaded by JS -->
             </div>
         </div>
     </section>
@@ -81,7 +88,7 @@
                 <p>Complete PDF manipulation toolkit</p>
             </div>
             <div class="tools-grid">
-                <!-- Tools will be loaded by JavaScript -->
+                <!-- Tools loaded by JS -->
             </div>
         </div>
     </section>
@@ -91,23 +98,25 @@
         <div class="container">
             <div class="section-title">
                 <h2>AI-Powered Tools</h2>
-                <p>Advanced AI features for image enhancement</p>
+                <p>Advanced AI features for image enhancement (placeholders, client-side simulated features)</p>
             </div>
             <div class="tools-grid">
-                <!-- Tools will be loaded by JavaScript -->
+                <!-- Tools loaded by JS -->
             </div>
         </div>
     </section>
 
-    <!-- Tool Interface -->
-    <div id="tool-modal" class="modal">
+    <!-- Tool Modal -->
+    <div id="tool-modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
         <div class="modal-content">
             <div class="modal-header">
                 <h3 id="modal-title">Tool Name</h3>
-                <span class="close">&times;</span>
+                <div class="modal-controls">
+                    <button class="icon-btn close" aria-label="Close dialog">&times;</button>
+                </div>
             </div>
             <div class="modal-body">
-                <!-- Tool content will be loaded here -->
+                <!-- tool content injected by JS -->
             </div>
         </div>
     </div>
@@ -147,13 +156,14 @@
                     </ul>
                 </div>
             </div>
+
             <div class="copyright">
                 <p>&copy; 2025 SheebuTech. All rights reserved. | Made with SheebuTech</p>
             </div>
         </div>
     </footer>
 
-    <!-- IMPORTANT: script filename must be exactly "script.js" -->
+    <!-- script must be named script.js -->
     <script src="script.js"></script>
 </body>
 </html>
