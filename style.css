@@ -237,7 +237,19 @@ nav a.active {
 .preview-area { display:flex; flex-wrap:wrap; gap:1rem; margin:1rem 0; }
 .preview-box { flex:1 1 45%; background: var(--card); border-radius:8px; padding:0.9rem; box-shadow: 0 2px 6px rgba(0,0,0,0.03); text-align:center; }
 .preview-box h4 { margin-bottom:0.5rem; }
-.preview-image img { max-width:100%; border-radius:6px; display:block; margin:auto; transform-origin:center center; }
+.preview-image { 
+    max-width: 100%; 
+    max-height: 40vh; /* Added constraint for better responsiveness on small screens */
+    overflow: hidden; 
+}
+.preview-image img { 
+    max-width:100%; 
+    border-radius:6px; 
+    display:block; 
+    margin:auto; 
+    transform-origin:center center; 
+    transition: transform 0.2s ease; /* Added transition for smooth transform */
+}
 
 /* action buttons */
 .action-buttons { text-align:center; margin-top:0.6rem; }

@@ -27,7 +27,7 @@ class SheebuTechApp {
         this.currentFile = null;
         this.processedFile = null;
         this.originalImage = null;
-        this.transforms = { rotate: 0, flipH: false, flipV: false };
+        this.transforms = { rotate: 0, flipH: false, flipV: false, zoom: 100 };
 
         this.init();
     }
@@ -105,8 +105,14 @@ class SheebuTechApp {
         document.querySelectorAll('.quick-tool').forEach(el => {
             el.addEventListener('click', () => {
                 const id = el.getAttribute('data-tool');
-                // navigate then open
-                const nav = document.querySelector('.nav-link[data-section="image-tools"]');
+                // find tool to determine category and nav target
+                const tool = this.findToolById(id);
+                if (!tool) return;
+                let navTarget = 'image-tools';
+                if (tool.category === 'pdf') navTarget = 'pdf-tools';
+                if (tool.category === 'ai') navTarget = 'ai-tools';
+
+                const nav = document.querySelector(`.nav-link[data-section="${navTarget}"]`);
                 if (nav) nav.click();
                 // small timeout to ensure section visible
                 setTimeout(() => this.openTool(id), 120);
@@ -167,7 +173,7 @@ class SheebuTechApp {
         this.currentFile = null;
         this.processedFile = null;
         this.originalImage = null;
-        this.transforms = { rotate: 0, flipH: false, flipV: false };
+        this.transforms = { rotate: 0, flipH: false, flipV: false, zoom: 100 }; // reset transforms
 
         const modal = document.getElementById('tool-modal');
         const modalTitle = document.getElementById('modal-title');
@@ -193,7 +199,7 @@ class SheebuTechApp {
         this.currentFile = null;
         this.processedFile = null;
         this.originalImage = null;
-        this.transforms = { rotate: 0, flipH: false, flipV: false };
+        this.transforms = { rotate: 0, flipH: false, flipV: false, zoom: 100 };
     }
 
     findToolById(id) {
@@ -207,17 +213,19 @@ class SheebuTechApp {
     generateToolInterface(tool) {
         // common controls: rotate, flip, preview zoom
         const commonControls = `
-            <div class="option-group">
-                <label for="rotate-angle">Rotate (degrees): <span id="rotate-value">0°</span></label>
-                <input type="range" id="rotate-angle" min="-180" max="180" value="0">
-            </div>
-            <div class="option-group">
-                <label><input type="checkbox" id="flip-h"> Flip Horizontal</label>
-                <label style="margin-left:10px;"><input type="checkbox" id="flip-v"> Flip Vertical</label>
-            </div>
-            <div class="option-group">
-                <label for="preview-zoom">Preview Zoom: <span id="zoom-value">100%</span></label>
-                <input type="range" id="preview-zoom" min="20" max="300" value="100">
+            <div class="options-panel-inner">
+                <div class="option-group">
+                    <label for="rotate-angle">Rotate (degrees): <span id="rotate-value">0°</span></label>
+                    <input type="range" id="rotate-angle" min="-180" max="180" value="0">
+                </div>
+                <div class="option-group">
+                    <label><input type="checkbox" id="flip-h"> Flip Horizontal</label>
+                    <label style="margin-left:10px;"><input type="checkbox" id="flip-v"> Flip Vertical</label>
+                </div>
+                <div class="option-group">
+                    <label for="preview-zoom">Preview Zoom: <span id="zoom-value">100%</span></label>
+                    <input type="range" id="preview-zoom" min="20" max="300" value="100">
+                </div>
             </div>
         `;
 
@@ -305,6 +313,12 @@ class SheebuTechApp {
                     </div>
                 `;
                 break;
+            case 'invert':
+            case 'ai-enhance':
+            case 'ai-background':
+            case 'ai-restore':
+                options = `<p>Ready to process your image!</p>`;
+                break;
             default:
                 options = `<p>Configure the settings for ${tool.name} below:</p>`;
         }
@@ -322,7 +336,7 @@ class SheebuTechApp {
             <div class="file-info" id="file-info" style="display:none"></div>
 
             <div class="options-panel">
-                ${commonControls}
+                ${tool.category === 'image' ? commonControls : ''}
                 ${options}
             </div>
 
@@ -330,6 +344,7 @@ class SheebuTechApp {
                 <div class="progress-bar" id="progress-bar"></div>
             </div>
 
+            ${tool.category === 'image' || tool.category === 'ai' ? `
             <div class="preview-area">
                 <div class="preview-box">
                     <h4>Original Image</h4>
@@ -340,9 +355,10 @@ class SheebuTechApp {
                     <div class="preview-image" id="processed-preview">Result will appear here</div>
                 </div>
             </div>
+            ` : ''}
 
             <div class="action-buttons">
-                <button class="process-button" id="process-button" type="button">Process Image</button>
+                <button class="process-button" id="process-button" type="button">${tool.category === 'image' ? 'Process Image' : 'Process File'}</button>
                 <button class="download-button" id="download-button" type="button">Download</button>
                 <button class="reset-button" id="reset-button" type="button">Reset</button>
             </div>
@@ -350,13 +366,13 @@ class SheebuTechApp {
     }
 
     getSupportedFormats(tool) {
-        if (tool.category === 'image') return '<span class="format-badge">JPG</span> <span class="format-badge">PNG</span> <span class="format-badge">WEBP</span> <span class="format-badge">GIF</span>';
+        if (tool.category === 'image' || tool.category === 'ai') return '<span class="format-badge">JPG</span> <span class="format-badge">PNG</span> <span class="format-badge">WEBP</span> <span class="format-badge">GIF</span>';
         if (tool.category === 'pdf') return '<span class="format-badge">PDF</span>';
         return 'All major formats';
     }
 
     getFileAccept(tool) {
-        if (tool.category === 'image') return 'image/*';
+        if (tool.category === 'image' || tool.category === 'ai') return 'image/*';
         if (tool.category === 'pdf') return '.pdf';
         return '*';
     }
@@ -373,7 +389,7 @@ class SheebuTechApp {
         downloadButton.style.display = 'none';
 
         // file input change
-        fileInput.addEventListener('change', (e) => this.handleFileUploadFromInput(e.target.files));
+        fileInput.addEventListener('change', (e) => this.handleFileUploadFromInput(e.target.files, tool));
 
         // upload area click
         uploadArea.addEventListener('click', () => fileInput.click());
@@ -393,17 +409,21 @@ class SheebuTechApp {
             uploadArea.classList.remove('dragover');
             uploadArea.style.background = '';
             if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length) {
-                this.handleFileUploadFromInput(e.dataTransfer.files);
+                this.handleFileUploadFromInput(e.dataTransfer.files, tool);
             }
         });
 
         // action buttons
-        processButton.addEventListener('click', () => this.processImage(tool));
+        processButton.addEventListener('click', () => this.processFile(tool));
         downloadButton.addEventListener('click', () => this.downloadFile());
         resetButton.addEventListener('click', () => this.resetTool());
 
         // tool specific listeners (including common ones)
-        this.setupToolSpecificListeners(tool);
+        if (tool.category === 'image' || tool.category === 'ai') {
+            this.setupToolSpecificListeners(tool);
+        } else {
+            // PDF tools logic could go here (e.g., enable/disable merge/split options)
+        }
     }
 
     setupToolSpecificListeners(tool) {
@@ -427,8 +447,10 @@ class SheebuTechApp {
             zoomInput.addEventListener('input', (e) => {
                 zoomValue.textContent = `${e.target.value}%`;
                 const scale = parseInt(e.target.value, 10) / 100;
+                this.transforms.zoom = parseInt(e.target.value, 10) || 100;
                 const orig = document.getElementById('original-preview');
                 const proc = document.getElementById('processed-preview');
+                // APPLY SCALE TO THE PREVIEW-BOX CONTAINER, not the image itself, for better UI/overflow handling
                 if (orig) orig.style.transform = `scale(${scale})`;
                 if (proc) proc.style.transform = `scale(${scale})`;
             });
@@ -487,7 +509,7 @@ class SheebuTechApp {
         }
     }
 
-    handleFileUploadFromInput(fileList) {
+    handleFileUploadFromInput(fileList, tool) {
         const file = fileList[0];
         if (!file) return;
         if (file.size > 10 * 1024 * 1024) {
@@ -495,12 +517,23 @@ class SheebuTechApp {
             return;
         }
         this.currentFile = file;
+        this.processedFile = null; // Clear processed file on new upload
         this.displayFileInfo(file);
-        this.displayFilePreview(file, 'original-preview');
-        // load actual Image object for processing
-        if (file.type && file.type.startsWith('image/')) {
-            this.loadImageForProcessing(file);
+
+        // Display preview based on category
+        if (tool.category === 'image' || tool.category === 'ai') {
+            this.displayFilePreview(file, 'original-preview');
+            // load actual Image object for processing
+            if (file.type && file.type.startsWith('image/')) {
+                this.loadImageForProcessing(file);
+            }
+        } else if (tool.category === 'pdf') {
+            const preview = document.getElementById('original-preview');
+            if (preview) preview.innerHTML = `<i class="fas fa-file-pdf" style="font-size:3rem;color:var(--primary)"></i><p>${file.name}</p>`;
+            const processedPreview = document.getElementById('processed-preview');
+            if (processedPreview) processedPreview.innerHTML = 'Result will appear here';
         }
+        
         this.showNotification('File uploaded successfully!', 'success');
     }
 
@@ -544,11 +577,14 @@ class SheebuTechApp {
             const reader = new FileReader();
             reader.onload = (e) => {
                 preview.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
-                // apply transforms visually
+                // apply transforms visually to the image and container
                 this.applyPreviewTransforms(previewId);
+                // Also reset container scale if it was used for zoom
+                preview.style.transform = `scale(${this.transforms.zoom / 100})`;
             };
             reader.readAsDataURL(file);
         } else {
+            // Placeholder for non-image files like PDF
             preview.innerHTML = `<i class="fas fa-file" style="font-size:3rem;color:var(--primary)"></i><p>${file.name}</p>`;
         }
     }
@@ -561,15 +597,17 @@ class SheebuTechApp {
         const rotate = this.transforms.rotate || 0;
         const scaleH = this.transforms.flipH ? -1 : 1;
         const scaleV = this.transforms.flipV ? -1 : 1;
-        img.style.transform = `rotate(${rotate}deg) scale(${scaleH * 1}, ${scaleV * 1})`;
+        // Apply flip/rotate to the image element
+        img.style.transform = `rotate(${rotate}deg) scale(${scaleH}, ${scaleV})`;
     }
 
-    processImage(tool) {
+    processFile(tool) {
         if (!this.currentFile) {
             this.showNotification('Please upload a file first', 'error');
             return;
         }
-        if (!this.originalImage) {
+
+        if (tool.category === 'image' && !this.originalImage) {
             this.showNotification('Please wait for image to load', 'error');
             return;
         }
@@ -585,12 +623,19 @@ class SheebuTechApp {
         processButton.disabled = true;
         processButton.textContent = 'Processing...';
 
+        // Simulate a processing delay for non-image/AI tools
+        if (tool.category === 'pdf' || tool.id === 'ai-background') {
+            this.processSimulatedFile(tool, processButton, downloadButton, progressContainer, progressBar);
+            return;
+        }
+
+        // Image/AI tool processing (Canvas based)
         // simulate progress until actual processing finishes
         let simulated = 0;
         const simInterval = setInterval(() => {
-            simulated += 6;
-            progressBar.style.width = `${Math.min(simulated, 70)}%`;
-            if (simulated >= 70) {
+            simulated += 3; // slower progress for image processing
+            progressBar.style.width = `${Math.min(simulated, 90)}%`; // Increased to 90%
+            if (simulated >= 90) { // Check against new limit
                 clearInterval(simInterval);
                 // actual processing
                 this.processImageBasedOnTool(tool).then(blob => {
@@ -614,42 +659,64 @@ class SheebuTechApp {
                     progressContainer.style.display = 'none';
                     processButton.disabled = false;
                     processButton.textContent = 'Process Image';
-                    this.showNotification('Error processing image', 'error');
+                    this.showNotification('Error processing image: ' + err.message, 'error');
                 });
+            }
+        }, 80); // Adjusted interval for slower progress
+    }
+
+    processSimulatedFile(tool, processButton, downloadButton, progressContainer, progressBar) {
+        // For PDF or placeholder AI tools, just simulate a successful process with a delay
+        let simulated = 0;
+        const simInterval = setInterval(() => {
+            simulated += 15;
+            progressBar.style.width = `${Math.min(simulated, 99)}%`;
+            if (simulated >= 99) {
+                clearInterval(simInterval);
+                progressBar.style.width = '100%';
+                setTimeout(() => {
+                    progressContainer.style.display = 'none';
+                    processButton.disabled = false;
+                    processButton.textContent = 'Process File';
+                    
+                    // Create a simulated output file (e.g., placeholder PDF or PNG for BG removal)
+                    const simulatedBlobType = (tool.category === 'pdf' ? 'application/pdf' : 'image/png');
+                    const simulatedExt = (tool.category === 'pdf' ? 'pdf' : 'png');
+                    const baseName = this.currentFile.name.replace(/\.[^/.]+$/, "");
+                    const fileName = `processed_${baseName}.${simulatedExt}`;
+                    const simulatedBlob = new Blob(['Simulated processed content for ' + this.currentFile.name], { type: simulatedBlobType });
+                    this.processedFile = new File([simulatedBlob], fileName, { type: simulatedBlobType });
+
+                    // Update UI
+                    downloadButton.style.display = 'inline-block';
+                    const processedPreview = document.getElementById('processed-preview');
+                    if (processedPreview) {
+                        processedPreview.innerHTML = tool.category === 'pdf'
+                            ? `<i class="fas fa-file-pdf" style="font-size:3rem;color:var(--accent)"></i><p>${fileName}</p><p>Simulated output.</p>`
+                            : `<i class="fas fa-check-circle" style="font-size:3rem;color:#28a745;"></i><p>Simulated background removal successful.</p>`;
+                    }
+                    
+                    this.showNotification(`${tool.name} completed successfully!`, 'success');
+                }, 500);
             }
         }, 120);
     }
+
 
     processImageBasedOnTool(tool) {
         return new Promise((resolve, reject) => {
             try {
                 // base canvas from original image
                 const src = this.originalImage;
-                // Determine base canvas sized to original image
-                let baseW = src.width;
-                let baseH = src.height;
-
-                // If tool is resize and inputs present, override
-                if (tool.id === 'resize') {
-                    const wIn = document.getElementById('resize-width');
-                    const hIn = document.getElementById('resize-height');
-                    if (wIn && hIn && wIn.value && hIn.value) {
-                        baseW = Math.max(1, Math.min(10000, parseInt(wIn.value, 10)));
-                        baseH = Math.max(1, Math.min(10000, parseInt(hIn.value, 10)));
-                    }
-                }
-
-                // create canvas with requested size (start with original)
+                
+                // create canvas with original image size (This is the 'source' for all operations)
                 const canvas = document.createElement('canvas');
                 canvas.width = src.width;
                 canvas.height = src.height;
                 const ctx = canvas.getContext('2d');
 
-                // apply flip/rotate when drawing original image to canvas
-                // We'll draw original into canvas, then later create processing canvas adjusted to baseW/baseH if required.
-                // draw original image into canvas
+                // apply initial flip/rotate when drawing original image to canvas
                 ctx.save();
-
                 // handle flips and rotation around center
                 if (this.transforms.rotate || this.transforms.flipH || this.transforms.flipV) {
                     // translate to center
@@ -666,7 +733,7 @@ class SheebuTechApp {
                 }
                 ctx.restore();
 
-                // now we have canvas with transforms applied. For operations like crop/resize, we use this canvas as source.
+                // now we have a canvas with transforms applied. For operations like crop/resize, we use this canvas as source.
                 let processedCanvas = canvas;
 
                 switch (tool.id) {
@@ -680,7 +747,7 @@ class SheebuTechApp {
                         break;
 
                     case 'convert':
-                        processedCanvas = canvas;
+                        processedCanvas = canvas; // Conversion happens at toBlob
                         break;
 
                     case 'crop':
@@ -694,13 +761,19 @@ class SheebuTechApp {
                     case 'invert':
                         processedCanvas = this.processImageInvert(canvas);
                         break;
+                    
+                    // Simulated AI tools using a simple filter
+                    case 'ai-enhance':
+                    case 'ai-restore':
+                        processedCanvas = this.processImageEnhance(canvas);
+                        break;
 
                     default:
                         processedCanvas = canvas;
                 }
 
                 // determine output format and quality
-                let outFormat = 'image/jpeg';
+                let outFormat = this.currentFile.type || 'image/jpeg';
                 let quality = 0.9;
 
                 if (tool.id === 'convert') {
@@ -711,13 +784,19 @@ class SheebuTechApp {
                 } else if (tool.id === 'compress') {
                     const q = document.getElementById('compress-quality');
                     quality = q ? Math.max(0.01, parseInt(q.value, 10) / 100) : 0.8;
-                    // keep original mime if possible
-                    outFormat = this.currentFile.type || 'image/jpeg';
+                    // keep original mime if possible, unless it's PNG and quality is low
+                    if (this.currentFile.type && this.currentFile.type.includes('png') && quality < 0.95) {
+                        outFormat = 'image/jpeg'; // Convert PNG to JPG if compressing significantly
+                    } else {
+                         outFormat = this.currentFile.type || 'image/jpeg';
+                    }
                 } else {
                     outFormat = this.currentFile.type || 'image/jpeg';
                 }
 
-                // Some browsers ignore quality for PNG — keep that in mind
+                // Correctly set quality for non-JPEG formats if applicable
+                if (outFormat.includes('png')) quality = 1.0; // PNG quality is ignored by most browsers anyway
+
                 processedCanvas.toBlob((blob) => {
                     if (blob) resolve(blob);
                     else reject(new Error('Failed to export image'));
@@ -807,15 +886,42 @@ class SheebuTechApp {
         newCanvas.width = sourceCanvas.width;
         newCanvas.height = sourceCanvas.height;
         const ctx = newCanvas.getContext('2d');
-        ctx.drawImage(sourceCanvas, 0, 0);
+        // Draw the source (which includes rotation/flip) onto the new canvas
+        ctx.drawImage(sourceCanvas, 0, 0); 
+        
+        // Get image data from the new canvas
         const id = ctx.getImageData(0, 0, newCanvas.width, newCanvas.height);
         const data = id.data;
         for (let i = 0; i < data.length; i += 4) {
-            data[i] = 255 - data[i];
-            data[i+1] = 255 - data[i+1];
-            data[i+2] = 255 - data[i+2];
+            data[i] = 255 - data[i];    // Red
+            data[i+1] = 255 - data[i+1]; // Green
+            data[i+2] = 255 - data[i+2]; // Blue
+            // Alpha (data[i+3]) is untouched
         }
-        ctx.putImageData(id, 0, 0);
+        ctx.putImageData(id, 0, 0); // Put the inverted data back
+        return newCanvas;
+    }
+
+    // A simple, simulated enhancement filter (like slight boost to contrast/saturation)
+    processImageEnhance(sourceCanvas) {
+        const newCanvas = document.createElement('canvas');
+        newCanvas.width = sourceCanvas.width;
+        newCanvas.height = sourceCanvas.height;
+        const ctx = newCanvas.getContext('2d');
+        ctx.drawImage(sourceCanvas, 0, 0);
+        
+        // Simple filter: increase contrast slightly
+        ctx.filter = 'contrast(1.1) saturate(1.1)'; 
+        ctx.drawImage(sourceCanvas, 0, 0); 
+        ctx.filter = 'none';
+
+        // Add a visible text to indicate AI simulation
+        ctx.save();
+        ctx.fillStyle = "rgba(0, 255, 0, 0.5)"; 
+        ctx.font = "bold 24px Arial";
+        ctx.fillText("AI Enhanced (Simulated)", 20, newCanvas.height - 20);
+        ctx.restore();
+
         return newCanvas;
     }
 
@@ -824,6 +930,7 @@ class SheebuTechApp {
         if (type.includes('jpeg')) return 'jpg';
         if (type.includes('png')) return 'png';
         if (type.includes('webp')) return 'webp';
+        if (type.includes('pdf')) return 'pdf';
         return 'jpg';
     }
 
@@ -853,19 +960,33 @@ class SheebuTechApp {
         if (fileInput) fileInput.value = '';
         if (fileInfo) fileInfo.style.display = 'none';
         if (downloadButton) downloadButton.style.display = 'none';
-        if (originalPreview) originalPreview.innerHTML = 'No image selected';
-        if (processedPreview) processedPreview.innerHTML = 'Result will appear here';
+        
+        // Reset previews
+        if (originalPreview) {
+            originalPreview.innerHTML = 'No image selected';
+            originalPreview.style.transform = 'scale(1)'; // Reset zoom
+        }
+        if (processedPreview) {
+             processedPreview.innerHTML = 'Result will appear here';
+             processedPreview.style.transform = 'scale(1)'; // Reset zoom
+        }
 
         this.currentFile = null;
         this.processedFile = null;
         this.originalImage = null;
-        this.transforms = { rotate: 0, flipH: false, flipV: false };
+        this.transforms = { rotate: 0, flipH: false, flipV: false, zoom: 100 };
 
-        // reset sliders if present
+        // reset sliders/inputs if present
         const rotate = document.getElementById('rotate-angle');
-        if (rotate) { rotate.value = 0; document.getElementById('rotate-value').textContent = '0°'; }
+        const rotateVal = document.getElementById('rotate-value');
+        if (rotate) { rotate.value = 0; if(rotateVal) rotateVal.textContent = '0°'; }
+        
         const zoom = document.getElementById('preview-zoom');
-        if (zoom) { zoom.value = 100; document.getElementById('zoom-value').textContent = '100%'; }
+        const zoomVal = document.getElementById('zoom-value');
+        if (zoom) { zoom.value = 100; if(zoomVal) zoomVal.textContent = '100%'; }
+        
+        document.querySelectorAll('input[type="checkbox"]').forEach(cb => { cb.checked = false; });
+
 
         this.showNotification('Tool reset successfully', 'info');
     }
