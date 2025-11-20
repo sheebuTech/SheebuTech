@@ -1,156 +1,230 @@
-<! DOCTYPE html>
-<html lang="hi">
+<!doctype html>
+
+<html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>SheebuTech - Professional Image & PDF Tools</title>
-    <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="" crossorigin="anonymous" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SheebuTech — Image & PDF Tools (Dev Build)</title>
+  <meta name="description" content="SheebuTech — browser-based Image & PDF tools. Free. Client-side." />
+  <style>
+    /* Minimal clean responsive UI */
+    :root{--accent:#0366d6;--muted:#666}
+    *{box-sizing:border-box}
+    body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;margin:0;background:#f7f8fb;color:#111}
+    header{background:white;padding:18px 16px;border-bottom:1px solid #e6e9ef;display:flex;align-items:center;justify-content:space-between}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:48px;height:48px;border-radius:8px;background:var(--accent);display:flex;align-items:center;justify-content:center;color:white;font-weight:700}
+    main{max-width:980px;margin:20px auto;padding:0 16px}
+    h1{margin:6px 0;font-size:20px}
+    .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+    .card{background:white;padding:12px;border-radius:8px;box-shadow:0 6px 18px rgba(20,24,40,0.04)}
+    .small{color:var(--muted);font-size:13px}
+    label{display:block;margin:8px 0;font-weight:600}
+    input[type=file]{display:block}
+    input[type=number],select{width:100%;padding:8px;margin-top:6px}
+    button{background:var(--accent);color:white;border:0;padding:10px 12px;border-radius:8px;cursor:pointer}
+    .row{display:flex;gap:8px}
+    footer{max-width:980px;margin:26px auto;padding:10px 16px;color:var(--muted);font-size:13px}
+    .tools-list{display:flex;flex-direction:column;gap:8px}
+    @media(max-width:720px){.grid{grid-template-columns:1fr}}
+  </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <div class="header-content">
-                <div class="logo">
-                    <h1>Sheebu<span>Tech</span></h1>
-                    <div class="tagline">Professional Image & PDF Tools</div>
-                </div>
+  <header>
+    <div class="brand">
+      <div class="logo">S</div>
+      <div>
+        <div style="font-weight:700">SheebuTech</div>
+        <div class="small">Browser Image & PDF Tools • Client-side Dev Build</div>
+      </div>
+    </div>
+    <nav class="small">sheebutech.github.io</nav>
+  </header>  <main>
+    <h1>Quick toolbox</h1>
+    <div class="grid">
+      <!-- Image Tools -->
+      <div class="card">
+        <h3>Image Tools</h3>
+        <div class="small">Compress • Resize • Convert • Simple BG Remove (client-side)</div>
+        <hr style="margin:10px 0"><label>Choose image</label>
+    <input id="imgInput" type="file" accept="image/*">
 
-                <nav>
-                    <ul>
-                        <li><a href="#" class="nav-link active" data-section="home">Home</a></li>
-                        <li><a href="#" class="nav-link" data-section="image-tools">Image Tools</a></li>
-                        <li><a href="#" class="nav-link" data-section="pdf-tools">PDF Tools</a></li>
-                        <li><a href="#" class="nav-link" data-section="ai-tools">AI Tools</a></li>
-                    </ul>
-                </nav>
+    <label>Compress (quality 0.1 - 1.0)</label>
+    <input id="quality" type="number" step="0.1" min="0.1" max="1.0" value="0.8">
 
-                <div class="header-actions">
-                    <button id="toggle-dark" class="icon-btn" aria-pressed="false" title="Toggle Dark Mode">
-                        <i class="fas fa-moon"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <section class="hero" id="home">
-        <div class="container">
-            <h2>All-in-One Image & PDF Processing Tools</h2>
-            <p>Professional quality image editing and PDF manipulation tools - 100% free, secure, and browser-based. No installation required.</p>
-            <button class="cta-button" id="explore-tools">Explore All Tools</button>
-
-            <div class="quick-tools">
-                <h3>Popular Tools</h3>
-                <div class="quick-tools-grid">
-                    <div class="quick-tool" data-tool="compress">
-                        <i class="fas fa-compress"></i>
-                        <span>Compress Image</span>
-                    </div>
-                    <div class="quick-tool" data-tool="resize">
-                        <i class="fas fa-expand"></i>
-                        <span>Resize Image</span>
-                    </div>
-                    <div class="quick-tool" data-tool="convert">
-                        <i class="fas fa-sync"></i>
-                        <span>Convert Format</span>
-                    </div>
-                    <div class="quick-tool" data-tool="ai-background">
-                        <i class="fas fa-layer-group"></i>
-                        <span>Remove BG</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="tools-section" id="image-tools">
-        <div class="container">
-            <div class="section-title">
-                <h2>Image Processing Tools</h2>
-                <p>Powerful tools for all your image editing needs</p>
-            </div>
-            <div class="tools-grid">
-                </div>
-        </div>
-    </section>
-
-    <section class="tools-section" id="pdf-tools">
-        <div class="container">
-            <div class="section-title">
-                <h2>PDF Processing Tools</h2>
-                <p>Complete PDF manipulation toolkit</p>
-            </div>
-            <div class="tools-grid">
-                </div>
-        </div>
-    </section>
-
-    <section class="tools-section" id="ai-tools">
-        <div class="container">
-            <div class="section-title">
-                <h2>AI-Powered Tools</h2>
-                <p>Advanced AI features for image enhancement (placeholders, client-side simulated features)</p>
-            </div>
-            <div class="tools-grid">
-                </div>
-        </div>
-    </section>
-
-    <div id="tool-modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="modal-title">Tool Name</h3>
-                <div class="modal-controls">
-                    <button class="icon-btn close" aria-label="Close dialog">&times;</button>
-                </div>
-            </div>
-            <div class="modal-body">
-                </div>
-        </div>
+    <label>Resize (px) — leave blank to keep original</label>
+    <div class="row">
+      <input id="width" type="number" placeholder="Width">
+      <input id="height" type="number" placeholder="Height">
     </div>
 
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-column">
-                    <h3>SheebuTech</h3>
-                    <p>Professional image and PDF processing tools designed for efficiency and ease of use.</p>
-                </div>
-                <div class="footer-column">
-                    <h3>Quick Links</h3>
-                    <ul>
-                        <li><a href="#" class="nav-link" data-section="home">Home</a></li>
-                        <li><a href="#" class="nav-link" data-section="image-tools">Image Tools</a></li>
-                        <li><a href="#" class="nav-link" data-section="pdf-tools">PDF Tools</a></li>
-                        <li><a href="#" class="nav-link" data-section="ai-tools">AI Tools</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>Contact Info</h3>
-                    <ul>
-                        <li><i class="fas fa-envelope"></i> support - sheebutech992@gmail.com</li>
-                        <li><i class="fas fa-globe"></i> www.sheebutech.com</li>
-                        <li><i class="fas fa-clock"></i> 24/7 Available</li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>Features</h3>
-                    <ul>
-                        <li>100% Free Tools</li>
-                        <li>No Watermark</li>
-                        <li>Fast Processing</li>
-                        <li>Privacy Protected</li>
-                    </ul>
-                </div>
-            </div>
+    <label>Output format</label>
+    <select id="format">
+      <option value="image/jpeg">JPG</option>
+      <option value="image/png">PNG</option>
+      <option value="image/webp">WEBP</option>
+    </select>
 
-            <div class="copyright">
-                <p>&copy; 2025 SheebuTech. All rights reserved. | Made with SheebuTech</p>
-            </div>
-        </div>
-    </footer>
+    <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
+      <button id="btnProcess">Process</button>
+      <button id="btnBGRemove">Simple BG Remove</button>
+      <a id="downloadLink" style="display:none" download="result.png">Download</a>
+    </div>
 
-    <script src="script.js"></script>
-</body>
-</html>
+    <div id="imgPreview" style="margin-top:12px"></div>
+  </div>
+
+  <!-- PDF Tools -->
+  <div class="card">
+    <h3>PDF Tools</h3>
+    <div class="small">Merge / Split / Compress (uses pdf-lib client-side)</div>
+    <hr style="margin:10px 0">
+
+    <label>Select PDFs to merge</label>
+    <input id="pdfs" type="file" accept="application/pdf" multiple>
+    <div style="margin-top:8px" class="row">
+      <button id="mergeBtn">Merge PDFs</button>
+      <a id="pdfDownload" style="display:none" download="merged.pdf">Download merged.pdf</a>
+    </div>
+
+    <hr style="margin:10px 0">
+    <label>Split PDF (pick single file)</label>
+    <input id="pdfSplit" type="file" accept="application/pdf">
+    <div style="margin-top:8px" class="row">
+      <button id="splitBtn">Split into pages</button>
+    </div>
+
+    <div id="pdfLog" style="margin-top:10px;color:var(--muted);font-size:13px"></div>
+  </div>
+</div>
+
+<section style="margin-top:18px" class="card">
+  <h3>Notes / Limitations</h3>
+  <ul>
+    <li class="small">All tools run client-side in the browser. No file leaves user's device in this build.</li>
+    <li class="small">BG removal is a simple heuristic (works best for near-solid backgrounds). For advanced BG removal we will integrate an API.</li>
+    <li class="small">Large files may be slow or hit memory limits on low-end phones.</li>
+  </ul>
+</section>
+
+<section style="margin-top:18px" class="card">
+  <h3>Contact & Branding</h3>
+  <div class="small">Contact: <a href="mailto:sheebutech992@gmail.com">sheebutech992@gmail.com</a></div>
+  <div style="margin-top:8px" class="small">Domain: sheebutech.github.io</div>
+</section>
+
+  </main>  <footer>
+    © 2025 SheebuTech. All rights reserved. • Built for mobile-first use.
+  </footer>  <!-- Libraries -->  <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>  <script>
+    // Utility: load image file as Image element
+    function loadImage(file) {
+      return new Promise((res, rej) => {
+        const url = URL.createObjectURL(file);
+        const img = new Image();
+        img.onload = () => { URL.revokeObjectURL(url); res(img); };
+        img.onerror = rej;
+        img.src = url;
+      })
+    }
+
+    async function processImage() {
+      const input = document.getElementById('imgInput');
+      if (!input.files || !input.files[0]) return alert('Select an image');
+      const file = input.files[0];
+      const img = await loadImage(file);
+
+      let w = parseInt(document.getElementById('width').value) || img.width;
+      let h = parseInt(document.getElementById('height').value) || img.height;
+
+      const canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, w, h);
+
+      const format = document.getElementById('format').value;
+      const quality = parseFloat(document.getElementById('quality').value) || 0.8;
+      const blob = await new Promise(r => canvas.toBlob(r, format, quality));
+
+      const url = URL.createObjectURL(blob);
+      const dl = document.getElementById('downloadLink');
+      dl.href = url; dl.style.display = 'inline-block';
+      dl.download = 'sheebutech_result.' + (format.includes('png')? 'png' : format.includes('webp')? 'webp': 'jpg');
+
+      const prev = document.getElementById('imgPreview'); prev.innerHTML = '';
+      const pimg = document.createElement('img'); pimg.src = url; pimg.style.maxWidth='100%'; prev.appendChild(pimg);
+    }
+
+    // Simple background removal: set near-white pixels alpha=0
+    async function simpleBGRemove() {
+      const input = document.getElementById('imgInput');
+      if (!input.files || !input.files[0]) return alert('Select an image');
+      const img = await loadImage(input.files[0]);
+      const canvas = document.createElement('canvas'); canvas.width=img.width; canvas.height=img.height;
+      const ctx = canvas.getContext('2d'); ctx.drawImage(img,0,0);
+      const imgd = ctx.getImageData(0,0,canvas.width,canvas.height);
+      const data = imgd.data;
+      for (let i=0;i<data.length;i+=4){
+        const r=data[i], g=data[i+1], b=data[i+2];
+        // if pixel is very close to white, make transparent
+        if (r>240 && g>240 && b>240){ data[i+3]=0; }
+      }
+      ctx.putImageData(imgd,0,0);
+      canvas.toBlob(blob=>{
+        const url=URL.createObjectURL(blob);
+        const dl=document.getElementById('downloadLink'); dl.href=url; dl.style.display='inline-block'; dl.download='sheebutech_transparent.png';
+        const prev=document.getElementById('imgPreview'); prev.innerHTML=''; const pimg=document.createElement('img'); pimg.src=url; pimg.style.maxWidth='100%'; prev.appendChild(pimg);
+      }, 'image/png');
+    }
+
+    // PDF merge using pdf-lib
+    async function mergePDFs(files){
+      const { PDFDocument } = PDFLib;
+      const merged = await PDFDocument.create();
+      for(const f of files){
+        const arr = await f.arrayBuffer();
+        const donor = await PDFDocument.load(arr);
+        const copied = await merged.copyPages(donor, donor.getPageIndices());
+        copied.forEach(p=> merged.addPage(p));
+      }
+      const out = await merged.save();
+      const blob = new Blob([out], {type:'application/pdf'});
+      const url = URL.createObjectURL(blob);
+      const a = document.getElementById('pdfDownload'); a.href=url; a.style.display='inline-block'; a.download='merged.pdf';
+      document.getElementById('pdfLog').textContent = 'Merged ' + files.length + ' PDFs.';
+    }
+
+    // PDF split: simple page extraction -> provide separate downloads
+    async function splitPDF(file){
+      const { PDFDocument } = PDFLib;
+      const arr = await file.arrayBuffer();
+      const doc = await PDFDocument.load(arr);
+      const total = doc.getPageCount();
+      const log = document.getElementById('pdfLog'); log.innerHTML='Splitting...';
+      const links = [];
+      for(let i=0;i<total;i++){
+        const outDoc = await PDFDocument.create();
+        const [copied] = await outDoc.copyPages(doc,[i]);
+        outDoc.addPage(copied);
+        const bytes = await outDoc.save();
+        const blob = new Blob([bytes],{type:'application/pdf'});
+        const url = URL.createObjectURL(blob);
+        links.push({url, name:'page-' + (i+1) + '.pdf'});
+      }
+      log.innerHTML = 'Split into ' + total + ' pages. Download links below:';
+      links.forEach(l=>{ const a=document.createElement('a'); a.href=l.url; a.download=l.name; a.textContent=l.name; a.style.display='block'; log.appendChild(a); });
+    }
+
+    // Event wiring
+    document.getElementById('btnProcess').addEventListener('click', processImage);
+    document.getElementById('btnBGRemove').addEventListener('click', simpleBGRemove);
+    document.getElementById('mergeBtn').addEventListener('click', ()=>{
+      const files = Array.from(document.getElementById('pdfs').files);
+      if (!files.length) return alert('Select PDF files');
+      mergePDFs(files);
+    });
+    document.getElementById('splitBtn').addEventListener('click', ()=>{
+      const f = document.getElementById('pdfSplit').files[0]; if (!f) return alert('Select a PDF'); splitPDF(f);
+    });
+
+  </script></body>
+    </html>
