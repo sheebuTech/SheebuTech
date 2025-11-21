@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>SheebuTech - Professional Image & PDF Tools</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Free online image & PDF processing tools. Compress, resize, convert images. Merge, split PDFs. 100% free, no watermark, browser-based tools.">
+    <meta name="keywords" content="image compression, PDF tools, resize image, convert image format, merge PDF, free online tools">
+    <meta name="author" content="SheebuTech">
+    
+    <!-- Open Graph Tags for Social Media -->
+    <meta property="og:title" content="SheebuTech - Professional Image & PDF Tools">
+    <meta property="og:description" content="Free online image & PDF processing tools. 100% free, no watermark, browser-based.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sheebutech.github.io/">
+    <meta property="og:image" content="https://sheebutech.github.io/logo.png">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="logo.png">
+    
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" />
+
+    <style>
+        .site-logo {
+            width: 150px;
+            height: auto;
+            max-width: 100%;
+        }
+        .logo h1 { display: none; }
+        .logo .tagline { margin-top: 5px; font-size: 0.75rem; }
+        
+        /* Mobile responsive logo */
+        @media (max-width: 768px) {
+            .site-logo { width: 120px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <img src="logo.png" alt="SheebuTech Logo" class="site-logo">
+                    <div class="tagline">Professional Image & PDF Tools</div>
+                </div>
+
+                <nav id="main-nav">
+                    <ul>
+                        <li><a href="#home" class="nav-link active" data-section="home">Home</a></li>
+                        <li><a href="#image-tools" class="nav-link" data-section="image-tools">Image Tools</a></li>
+                        <li><a href="#pdf-tools" class="nav-link" data-section="pdf-tools">PDF Tools</a></li>
+                        <li><a href="#ai-tools" class="nav-link" data-section="ai-tools">AI Tools</a></li>
+                    </ul>
+                </nav>
+
+                <div class="header-actions">
+                    <button id="mobile-menu-toggle" class="icon-btn mobile-only" aria-label="Toggle Menu">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <button id="toggle-dark" class="icon-btn" aria-pressed="false" title="Toggle Dark Mode">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu" id="mobile-menu">
+        <button class="close-mobile-menu" id="close-mobile-menu">
+            <i class="fas fa-times"></i>
+        </button>
+        <ul>
+            <li><a href="#home" class="nav-link-mobile" data-section="home">Home</a></li>
+            <li><a href="#image-tools" class="nav-link-mobile" data-section="image-tools">Image Tools</a></li>
+            <li><a href="#pdf-tools" class="nav-link-mobile" data-section="pdf-tools">PDF Tools</a></li>
+            <li><a href="#ai-tools" class="nav-link-mobile" data-section="ai-tools">AI Tools</a></li>
+        </ul>
+    </div>
+
+    <section class="hero" id="home">
+        <div class="container">
+            <h1>All-in-One Image & PDF Processing Tools</h1>
+            <p>Professional quality image editing and PDF manipulation tools - 100% free, secure, and browser-based. No installation required.</p>
+            <button class="cta-button" id="explore-tools">Explore All Tools</button>
+
+            <div class="quick-tools">
+                <h3>Popular Tools</h3>
+                <div class="quick-tools-grid">
+                    <div class="quick-tool" data-tool="compress">
+                        <i class="fas fa-compress"></i>
+                        <span>Compress Image</span>
+                    </div>
+                    <div class="quick-tool" data-tool="resize">
+                        <i class="fas fa-expand"></i>
+                        <span>Resize Image</span>
+                    </div>
+                    <div class="quick-tool" data-tool="convert">
+                        <i class="fas fa-sync"></i>
+                        <span>Convert Format</span>
+                    </div>
+                    <div class="quick-tool" data-tool="ai-background">
+                        <i class="fas fa-layer-group"></i>
+                        <span>Remove BG</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="tools-section" id="image-tools">
+        <div class="container">
+            <div class="section-title">
+                <h2>Image Processing Tools</h2>
+                <p>Powerful tools for all your image editing needs</p>
+            </div>
+            <div class="tools-grid"></div>
+        </div>
+    </section>
+
+    <section class="tools-section" id="pdf-tools">
+        <div class="container">
+            <div class="section-title">
+                <h2>PDF Processing Tools</h2>
+                <p>Complete PDF manipulation toolkit</p>
+            </div>
+            <div class="tools-grid"></div>
+        </div>
+    </section>
+
+    <section class="tools-section" id="ai-tools">
+        <div class="container">
+            <div class="section-title">
+                <h2>AI-Enhanced Tools</h2>
+                <p>Advanced features for image enhancement</p>
+            </div>
+            <div class="tools-grid"></div>
+        </div>
+    </section>
+
+    <div id="tool-modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Tool Name</h3>
+                <div class="modal-controls">
+                    <button class="icon-btn close" aria-label="Close dialog">&times;</button>
+                </div>
+            </div>
+            <div class="modal-body"></div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="spinner"></div>
+        <p>Processing...</p>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>SheebuTech</h3>
+                    <p>Professional image and PDF processing tools designed for efficiency and ease of use.</p>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#home" class="nav-link" data-section="home">Home</a></li>
+                        <li><a href="#image-tools" class="nav-link" data-section="image-tools">Image Tools</a></li>
+                        <li><a href="#pdf-tools" class="nav-link" data-section="pdf-tools">PDF Tools</a></li>
+                        <li><a href="#ai-tools" class="nav-link" data-section="ai-tools">AI Tools</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Contact Info</h3>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> <a href="mailto:sheebutech992@gmail.com">sheebutech992@gmail.com</a></li>
+                        <li><i class="fas fa-globe"></i> sheebutech.github.io</li>
+                        <li><i class="fas fa-clock"></i> 24/7 Available</li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Features</h3>
+                    <ul>
+                        <li><i class="fas fa-check"></i> 100% Free Tools</li>
+                        <li><i class="fas fa-check"></i> No Watermark</li>
+                        <li><i class="fas fa-check"></i> Fast Processing</li>
+                        <li><i class="fas fa-check"></i> Privacy Protected</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p>&copy; 2025 SheebuTech. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
